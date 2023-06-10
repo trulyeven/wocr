@@ -13,10 +13,11 @@ public class TransController {
 	@GetMapping("trans")
 	public String trans() {
 		
-		File imageFile = new File("C:/Users/g_yun/Desktop/sample.png");
-		ITesseract instance = new Tesseract();  // JNA Interface Mapping
+		File imageFile = new File("C:/Users/g_yun/Desktop/example.png"); // 이미지파일 경로
+		ITesseract instance = new Tesseract();
+		instance.setLanguage("kor+eng");  // OCR 한글 영어 인식
         // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-        instance.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); // path to tessdata directory
+        instance.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); // tessdata directory 경로
 
         try {
             String result = instance.doOCR(imageFile);
