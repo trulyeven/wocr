@@ -7,6 +7,15 @@
 </head>
 <body>
 	<h2>OCR 결과</h2>
-    <p th:text="${ocrResult}"></p>
+    <p th:text="${result}"></p>
+    
+    <iframe id="player" type="text/html" width="640" height="360"
+		th:src="|https://www.youtube.com/embed/${inputValue}|"
+		frameborder="0">
+	</iframe>
+	
+	<h1>Input Value: <span th:text="${url}"></span></h1>
+	<input id="urlid" name="urlid" type="hidden" value="${url}">
+	
 </body>
 </html>
