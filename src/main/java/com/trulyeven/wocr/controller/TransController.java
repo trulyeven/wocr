@@ -11,9 +11,7 @@ import com.trulyeven.wocr.service.TransService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 public class TransController {
-
 	@Autowired 
 	TransService service;
 	
@@ -28,15 +26,17 @@ public class TransController {
 		return "trans";
 	}
 	
+	
 	@PostMapping("/trans")
 	public String transPost(String url, Model model) {
-		String result = service.tessOCR();  // OCR 실행
 		
+		service.screenShot();  // 스크린샷
+		String result = service.tessOCR();  // OCR 실행
+		service.delImage();  // 이미지파일 제거
+	    
 		model.addAttribute("url", url);
 		model.addAttribute("result", result);
-	
-		service.screenshot(url);
-	    
+		
 		return "trans";
 	}
 }
