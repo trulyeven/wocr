@@ -32,19 +32,20 @@ public class TransController {
 	@PostMapping("/trans")
 	public String transPost(String url, Model model) {
 		
-		Pattern pattern = Pattern.compile("^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]*).*");
-		Matcher matcher = pattern.matcher(url);
-
-		String videoCode = "";
-		
+		// 비디오 코드를 URL에서 추출하기 위한 정규식 패턴
+        Pattern pattern = Pattern.compile("(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*");
+        
+        Matcher matcher = pattern.matcher(url);
+        
+        String videoCode = "";
+        
         if (matcher.find()) {
             videoCode = matcher.group();
         }
 		
 		service.screenShot();  // 스크린샷
-//		service.tessOCR();
 		String result = service.tessOCR();  // OCR 실행
-//		service.delImage();  // 이미지파일 제거
+		service.delImage();  // 이미지파일 제거
 		
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
