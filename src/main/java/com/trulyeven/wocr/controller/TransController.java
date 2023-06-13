@@ -56,10 +56,12 @@ public class TransController {
 	
 	@PostMapping("/start-OCR")
 	public void startOCR() {
+		System.out.println("wow");
 	}
 	
 	@PostMapping("/stop-OCR")
 	public void stopOCR() {
+
 	}
 	
 	

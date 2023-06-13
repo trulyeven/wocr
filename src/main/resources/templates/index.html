@@ -13,9 +13,6 @@
         <input type="text" id="url" name="url" required>
         <button type="submit">확인</button>
         
-        <label for="videoId">YouTube Video ID:</label>
-        <input type="text" id="videoId" th:attr="disabled=${!validVideoId}" />
-        <button type="submit" th:disabled="${!validVideoId}">Submit</button>
     </form>
     
     <form>
