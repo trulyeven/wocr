@@ -7,7 +7,9 @@ function startOCR() {
     type: 'GET',
     success: function(response) {
       // 서버에서의 처리가 성공한 경우에 실행할 동작을 작성합니다.
-      console.log('OCR 실행');
+      console.log('OCR 실행 결과:', response);
+      // response 변수에는 서버에서 반환한 result 값이 포함됩니다.
+      $('#result').text(response); // 결과를 출력할 위치에 값 설정
     },
     error: function(xhr, status, error) {
       // 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.

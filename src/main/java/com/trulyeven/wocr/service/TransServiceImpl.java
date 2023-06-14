@@ -8,6 +8,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,55 @@ import net.sourceforge.tess4j.TesseractException;
 @Service
 public class TransServiceImpl implements TransService {
 	
+	private WebDriver driver; // 인스턴스 변수로 선언
+
+    public void setDriver(String url) {
+        System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
+        EdgeOptions options = new EdgeOptions();
+//        options.addArguments("headless");
+//        options.addArguments("debuggerAddress=localhost:9999");
+        driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
+        driver.get("http://localhost:9999/wocr/");
+        
+        // input 태그 선택
+        WebElement inputElement = driver.findElement(By.id("url"));
+        // 텍스트 입력
+        inputElement.sendKeys(url);
+        inputElement.submit();
+    }
+    
+	/**
+	 * 
+	 */
+	@Override
+	public void screenShot() {
+		
+		WebElement searchBar = driver.findElement(By.tagName("body"));
+		
+		File file= searchBar.getScreenshotAs(OutputType.FILE);
+		
+		try {
+			String filePath = "src/main/resources/static/image/";
+			FileUtils.copyFile(file, new File(filePath + "OCR.png"));
+			
+		} catch (Exception e) {
+			log.debug("selenium screenshot error");
+		}
+		
+	}
+	
+	@Override
+	public void quitDriver() {
+		driver.quit();
+	}
+
+    
 	/**
 	 * 
 	 * @return
 	 */
 	@Override
 	public String tessOCR() {
-		
 		File imageFile = new File("src/main/resources/static/image/OCR.png"); // 이미지파일 경로
 
 		ITesseract instance = new Tesseract();
@@ -34,45 +77,13 @@ public class TransServiceImpl implements TransService {
 
         try {
             String result = instance.doOCR(imageFile);
-            
             System.out.println(result);
-            
             return result;
         } catch (TesseractException e) {
             log.debug(e.getMessage());
         }
 		return null;
 	}
-	
-    
-	/**
-	 * 
-	 */
-	@Override
-	public void screenShot() {
-	    
-		System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
-		WebDriver driver = new EdgeDriver();
-		
-//		driver.get("https://www.youtube.com/");
-		driver.get("http://localhost:9999/wocr/trans");
-
-		WebElement searchBar = driver.findElement(By.tagName("body"));
-		
-		File file= searchBar.getScreenshotAs(OutputType.FILE);
-
-		try {
-			String filePath = "src/main/resources/static/image/";
-			FileUtils.copyFile(file, new File(filePath + "OCR.png"));
-			
-		} catch (Exception e) {
-			log.debug("selenium screenshot error");
-		}finally {
-			driver.quit();
-		}
-		
-	}
-	
 	
 	/**
 	 * 
@@ -103,6 +114,8 @@ public class TransServiceImpl implements TransService {
             log.debug("삭제할 PNG 파일이 존재하지 않습니다.");
         }
 	}
+
+
 	
 		
 }

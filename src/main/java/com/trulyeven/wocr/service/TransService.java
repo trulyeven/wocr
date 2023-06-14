@@ -7,7 +7,10 @@ public interface TransService {
 	void screenShot();
 	
 	void delImage();
-
+	
+	void setDriver(String url);
+	
+	void quitDriver();
 
 	
 	
