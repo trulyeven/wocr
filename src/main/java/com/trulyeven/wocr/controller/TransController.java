@@ -23,8 +23,6 @@ public class TransController {
 		
 		String result = service.tessOCR();  // OCR 실행
 		model.addAttribute("result", result);
-		
-		
 		return "trans";
 	}
 	
@@ -54,14 +52,15 @@ public class TransController {
 	}
 	
 	
-	@PostMapping("/start-OCR")
-	public void startOCR() {
+	@GetMapping("/start-OCR")
+	public String startOCR() {
 		System.out.println("wow");
+		return "redirect:/";
 	}
 	
-	@PostMapping("/stop-OCR")
-	public void stopOCR() {
-
+	@GetMapping("/stop-OCR")
+	public String stopOCR() {
+		return "redirect:/";
 	}
 	
 	
