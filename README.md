@@ -1,0 +1,14 @@
+# wocr
+
+<img src="https://img.shields.io/badge/Java-blue?style=flat&logo=Java&logoColor=white"/> 17
+<img src="https://img.shields.io/badge/Springboot-green?style=flat&logo=Springboot&logoColor=white"/>
+
+
+<img src="https://img.shields.io/badge/HTML-red?style=flat&logo=html5&logoColor=white"/>
+<img src="https://img.shields.io/badge/CSS-blue?style=flat&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-yellow?style=flat&logo=JavaScript&logoColor=white"/>
+<img src="https://img.shields.io/badge/jQuery-blue?style=flat&logo=jquery&logoColor=black"/>
+
+
+<img src="https://img.shields.io/badge/Git-orange?style=flat&logo=git&logoColor=white"/>
+<img src="https://img.shields.io/badge/github-black?style=flat&logo=github&logoColor=white"/>
