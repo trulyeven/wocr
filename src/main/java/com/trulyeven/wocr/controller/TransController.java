@@ -3,16 +3,14 @@ package com.trulyeven.wocr.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mysql.cj.jdbc.Driver;
 import com.trulyeven.wocr.service.TransService;
 
 
@@ -20,6 +18,8 @@ import com.trulyeven.wocr.service.TransService;
 public class TransController {
 	@Autowired 
 	TransService service;
+	
+	private String transUrl;
 	
 	
 	@GetMapping("/trans")
@@ -38,13 +38,15 @@ public class TransController {
         Matcher matcher = pattern.matcher(url);
         
         String videoCode = "";
-        String result = null;
+        
+        @SuppressWarnings("unused")
+		String result = null;
         
         if (matcher.find()) {
             videoCode = matcher.group();
         }
         
-        service.setDriver(url);
+        transUrl = url;
         
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
@@ -52,19 +54,10 @@ public class TransController {
 		return "trans";
 	}
 	
-	
-//	@GetMapping("/start-OCR")
-//	public String startOCR(Model model) {
-//		service.screenShot();  // 스크린샷
-//		String result = service.tessOCR();  // OCR 실행
-//		service.delImage();  // 이미지파일 제거
-//		
-//		model.addAttribute("result", result);
-//		return "redirect:/";
-//	}
 
 	@GetMapping("/start-OCR")
 	public ResponseEntity<String> startOCR() {
+		service.setDriver(transUrl);
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
@@ -80,10 +73,26 @@ public class TransController {
 	}
 	
 	
+	 @PostMapping("/updatePlayerState")
+	 public ResponseEntity<String> updatePlayerState(@RequestParam("playerState") int playerState) {
+		 // 유튜브 재생 상태 업데이트 처리
+		 // 처리 로직 구현
+
+		 return ResponseEntity.ok("Player state updated successfully");
+	 }
 	
+	
+// 웹페이지 클릭연동
+//	@PostMapping("/webClick")
+//	public ResponseEntity<String> handleWebClick(@RequestParam int x, @RequestParam int y) {
+//	    service.webClick(x, y);
+//	    return ResponseEntity.ok("Click event received and processed by Spring");
+//	}
+	
+	
+}
 	
 //	@Scheduled(fixedDelay = 5000)  // 5초마다 실행
 //	public void repeatOCR(String url, Model model) {
 //		
 //	}
-}

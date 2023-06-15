@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,12 +23,16 @@ public class TransServiceImpl implements TransService {
 	
 	private WebDriver driver; // 인스턴스 변수로 선언
 
+	
     public void setDriver(String url) {
-        System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
+    	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
         EdgeOptions options = new EdgeOptions();
+        options.addArguments("start-maximized");
 //        options.addArguments("headless");
 //        options.addArguments("debuggerAddress=localhost:9999");
+//        options.addArguments("no-sandbox");
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
+        
         driver.get("http://localhost:9999/wocr/");
         
         // input 태그 선택
@@ -35,6 +40,17 @@ public class TransServiceImpl implements TransService {
         // 텍스트 입력
         inputElement.sendKeys(url);
         inputElement.submit();
+        
+     // JavaScript 실행
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        boolean isSelenium = (boolean) jsExecutor.executeScript("return window.Selenium !== undefined;");
+        
+        // 결과 출력
+        if (isSelenium) {
+            System.out.println("Edge 페이지는 Selenium으로 작동 중입니다.");
+        } else {
+            System.out.println("Edge 페이지는 Selenium으로 작동 중이 아닙니다.");
+        }
     }
     
 	/**
@@ -115,7 +131,11 @@ public class TransServiceImpl implements TransService {
         }
 	}
 
-
-	
+// 웹페이지 클릭연동
+//	@Override
+//	public void webClick(int x, int y) {
+//		Actions actions = new Actions(driver);
+//		actions.moveByOffset(x, y).click().perform();
+//	}
 		
 }

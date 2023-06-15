@@ -12,6 +12,9 @@ public interface TransService {
 	
 	void quitDriver();
 
+//	void webClick(int x, int y);  // 웹페이지 클릭연동
+
+
 	
 	
 }
