@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.api.client.util.Value;
 import com.trulyeven.wocr.service.TransService;
 
 
@@ -19,6 +20,9 @@ public class TransController {
 	@Autowired 
 	TransService service;
 	
+	@Value("${youtube.api.key}")
+	String youtubeApiKey;
+
 	private String transUrl;
 	
 	

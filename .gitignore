@@ -39,3 +39,6 @@ out/
 
 ### .temp-wocr - WocrApplication-classpath-arg-{숫자}.txt 파일들을 Git으로부터 제외 ###
 .temp-wocr\ -\ WocrApplication-classpath-arg-*.txt
+
+### application.properties 제외
+/src/main/resources/application.properties
