@@ -1,5 +1,7 @@
 package com.trulyeven.wocr.service;
 
+import com.trulyeven.wocr.domain.VideoInfo;
+
 public interface TransService {
 	
 	String tessOCR();
@@ -11,6 +13,8 @@ public interface TransService {
 	void setDriver(String url);
 	
 	void quitDriver();
+
+	void setYoutube(VideoInfo videoinfo);
 
 //	void webClick(int x, int y);  // 웹페이지 클릭연동
 

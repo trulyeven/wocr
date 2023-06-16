@@ -12,6 +12,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
 
+import com.trulyeven.wocr.domain.VideoInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -40,8 +42,6 @@ public class TransServiceImpl implements TransService {
         // 텍스트 입력
         inputElement.sendKeys(url);
         inputElement.submit();
-        
-        
         
      // JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
@@ -133,6 +133,21 @@ public class TransServiceImpl implements TransService {
         }
 	}
 
+	@Override
+	public void setYoutube(VideoInfo videoinfo) {
+	    double youtubesec = videoinfo.getCurrentTime();
+	    
+	    // 유튜브 동영상 **초부터 시작하도록 설정
+	    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+	    String script = "var videoElement = document.querySelector('#video-player-id');"
+	                    + "videoElement.seekTo(" + (youtubesec * 1000) + ");"; // 밀리초
+	    jsExecutor.executeScript(script);
+
+	    // 유튜브 동영상 재생
+	    script = "var videoElement = document.querySelector('#video-player-id');"
+	            + "videoElement.play();";
+	    jsExecutor.executeScript(script);
+	}
 	
 	
 // 웹페이지 클릭연동
