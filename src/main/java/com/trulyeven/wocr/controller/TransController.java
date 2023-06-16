@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.api.client.util.Value;
+import com.trulyeven.wocr.domain.VideoInfo;
 import com.trulyeven.wocr.service.TransService;
 
 
@@ -23,12 +24,12 @@ public class TransController {
 	@Value("${youtube.api.key}")
 	String youtubeApiKey;
 
+	
 	private String transUrl;
 	
 	
 	@GetMapping("/trans")
 	public String trans(Model model) {
-		
 		String result = service.tessOCR();  // OCR 실행
 		model.addAttribute("result", result);
 		return "trans";
@@ -42,14 +43,12 @@ public class TransController {
         Matcher matcher = pattern.matcher(url);
         
         String videoCode = "";
-        
         @SuppressWarnings("unused")
 		String result = null;
         
         if (matcher.find()) {
             videoCode = matcher.group();
         }
-        
         transUrl = url;
         
 		model.addAttribute("url", url);
@@ -77,8 +76,43 @@ public class TransController {
 	}
 	
 	
-
+	@PostMapping("/yotubeTime")
+	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, VideoInfo videoinfo) {
+		videoinfo.setCurrentTime(currentTime);
+		return ResponseEntity.ok("Current time received and processed");
+	}
 	
+	@PostMapping("/yotubePlaying")
+	public ResponseEntity<String> youtubePlaying(@RequestParam("isplaying") boolean isplaying, VideoInfo videoinfo) {
+		videoinfo.setIsplaying(isplaying);
+		return ResponseEntity.ok("Current time received and processed");
+	}
+	
+	
+//	// 동영상 정보를 가져오는 컨트롤러 메소드
+//	@GetMapping("/getVideo")
+//	@ResponseBody
+//	public VideoInfo getVideoInfo() {
+//	    // YouTube 동영상 정보를 가져오는 로직
+//	    // VideoInfo 객체에 동영상 정보를 설정하여 반환
+//	    VideoInfo videoInfo = new VideoInfo();
+//	    videoInfo.setVideoId("동영상 아이디");
+//	    videoInfo.setVideoUrl("동영상 URL");
+//	    // 동영상 정보에는 재생 시간 등의 필요한 정보를 포함할 수 있습니다.
+//	    
+//	    return videoInfo;
+//	}
+//
+//	// 클라이언트로부터 현재 재생 시간을 받는 컨트롤러 메소드
+//	@PostMapping("/updateCurrentTime")
+//	@ResponseBody
+//	public void updateCurrentTime(@RequestParam("currentTime") double currentTime) {
+//	    // 클라이언트로부터 전달받은 현재 재생 시간을 처리하는 로직
+//	    // 해당 동영상의 현재 재생 시간을 업데이트하거나 필요한 작업을 수행
+//		System.out.println(currentTime);
+//	}
+	
+//	
 // 웹페이지 클릭연동
 //	@PostMapping("/webClick")
 //	public ResponseEntity<String> handleWebClick(@RequestParam int x, @RequestParam int y) {

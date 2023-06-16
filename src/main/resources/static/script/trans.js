@@ -36,48 +36,102 @@ function stopOCR() {
 
 // 페이지 로드 시 유튜브 API 초기화
 $(document).ready(function() {
-  onYouTubeIframeAPIReady();
+  loadYouTubeAPI();
 });
 
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// 유튜브 API 스크립트 로드
+function loadYouTubeAPI() {
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
 
 var player;
+
+// YouTube IFrame API 로드 완료 시 호출되는 함수
 function onYouTubeIframeAPIReady() {
-	var videoID = document.getElementsByName('videoCode')[0].value;
-	
-	player = new YT.Player('player', {
-		height: '360',
-		width: '640',
-		videoId: videoID,
-		events: {
-		'onReady': onPlayerReady,
-		'onStateChange': onPlayerStateChange
-		}
-	});
+  var videoID = document.getElementsByName('videoCode')[0].value;
+
+  player = new YT.Player('player', {
+    height: '360',
+    width: '640',
+    videoId: videoID,
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
 }
-	
+
+// 플레이어 준비 완료 시 호출되는 함수
 function onPlayerReady(event) {
-	console.log(player.getDuration());
-	//event.target.playVideo();
+  console.log(player.getDuration());
+  //event.target.playVideo();
 }
 
-var done = false;
+
+// 플레이어 상태 변경 시 호출되는 함수
+var playingTime = [];
+var pausedTime = [];
+
 function onPlayerStateChange(event) {
-	if (event.data == YT.PlayerState.PLAYING && !done) {
-		setTimeout(stopVideo, 6000);
-		done = true;
+  if (event.data === YT.PlayerState.PLAYING) {
+    // 재생 중일 때 현재 시간과 시스템 시간을 배열에 저장
+    playingTime = [Math.floor(player.getCurrentTime()), new Date()];
+    
+    isplaying = true;
+    sendIsPlaying(isplaying);
+  }
+   if (event.data === YT.PlayerState.PAUSED) { 
+    // 멈추었을 때 현재 시간과 시스템 시간을 배열에 저장
+    pausedTime = [Math.floor(player.getCurrentTime()), new Date()];
+    
+    isplaying = false;
+    sendIsPlaying(isplaying);
 	}
+    if (pausedTime[0] !== playingTime[0]) {
+      // 두 시간이 다르면 재생 시간과 시스템 시간을 전송
+      var latestTime = pausedTime[1] > playingTime[1] ? pausedTime[0] : playingTime[0];
+      sendCurrentTimeToServer(latestTime);
+    }
+    playingTime = pausedTime;
+  
+}
+	
+
+// AJAX를 사용하여 현재 재생 시간을 서버로 전송하는 함수
+function sendCurrentTimeToServer(currentTime) {
+  $.ajax({
+    url: '/wocr/yotubeTime',
+    type: 'POST',
+    data: {
+      currentTime: currentTime,
+    },
+    success: function(response) {
+      console.log('Current time sent to server: ' + currentTime);
+    },
+    error: function(xhr, status, error) {
+      console.log('Failed to send current time to server');
+    }
+  });
 }
 
-function stopVideo() {
-	player.stopVideo();
+function sendIsPlaying(isplaying) {
+  $.ajax({
+    url: '/wocr/yotubePlaying',
+    type: 'POST',
+    data: {
+      isplaying: isplaying,
+    },
+    success: function(response) {
+      console.log('isPlaying: ' + isplaying);
+    },
+    error: function(xhr, status, error) {
+      console.log('Failed to send isPlaying status to server');
+    }
+  });
 }
-
-
 
 
 /* 웹페이지와 셀레니움 페이지 클릭 연동

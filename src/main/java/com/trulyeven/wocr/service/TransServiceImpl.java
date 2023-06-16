@@ -41,6 +41,8 @@ public class TransServiceImpl implements TransService {
         inputElement.sendKeys(url);
         inputElement.submit();
         
+        
+        
      // JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         boolean isSelenium = (boolean) jsExecutor.executeScript("return window.Selenium !== undefined;");
