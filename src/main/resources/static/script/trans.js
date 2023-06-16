@@ -34,42 +34,49 @@ function stopOCR() {
 }
 
 
-// 유튜브 재생 상태 변경 이벤트 핸들러 등록
-function onPlayerStateChange(event) {
-  var playerState = event.data;
-
-  // AJAX를 사용하여 서버로 유튜브 재생 상태 전송
-  $.ajax({
-    url: '/wocr/updatePlayerState',
-    type: 'POST',
-    data: {
-      playerState: playerState
-    },
-    success: function(response) {
-      console.log('Player state updated on the server');
-    },
-    error: function(xhr, status, error) {
-      console.log('Failed to update player state on the server');
-    }
-  });
-}
-
-// 유튜브 API 초기화 및 이벤트 핸들러 등록
-function initYouTubePlayer() {
-  // 유튜브 API 로드
-
-  // 플레이어 생성 및 이벤트 핸들러 등록
-  var player = new YT.Player('player', {
-    events: {
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-
 // 페이지 로드 시 유튜브 API 초기화
 $(document).ready(function() {
-  initYouTubePlayer();
+  onYouTubeIframeAPIReady();
 });
+
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function onYouTubeIframeAPIReady() {
+	var videoID = document.getElementsByName('videoCode')[0].value;
+	
+	player = new YT.Player('player', {
+		height: '360',
+		width: '640',
+		videoId: videoID,
+		events: {
+		'onReady': onPlayerReady,
+		'onStateChange': onPlayerStateChange
+		}
+	});
+}
+	
+function onPlayerReady(event) {
+	console.log(player.getDuration());
+	//event.target.playVideo();
+}
+
+var done = false;
+function onPlayerStateChange(event) {
+	if (event.data == YT.PlayerState.PLAYING && !done) {
+		setTimeout(stopVideo, 6000);
+		done = true;
+	}
+}
+
+function stopVideo() {
+	player.stopVideo();
+}
+
 
 
 
@@ -99,3 +106,4 @@ function clickEventHandler(event) {
 // 초기에 한 번 이벤트 리스너를 등록합니다
 document.addEventListener('click', clickEventHandler);
 */
+

@@ -5,30 +5,35 @@
 <meta charset="UTF-8">
 <title>result</title>
 <link rel="stylesheet" th:href="@{/css/trans.css}">
-<script th:inline="javascript" th:src="@{/script/trans.js}"></script>
 <script
-  src="https://code.jquery.com/jquery-3.7.0.min.js"
+  th:src="@{https://code.jquery.com/jquery-3.7.0.min.js}"
   integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
   crossorigin="anonymous"></script>
+<script th:inline="javascript" th:src="@{/script/trans.js}"></script>
 </head>
 <body>
 	<h2>OCR 결과</h2>
     <p th:text="${result}"></p>
     <div id="result" th:text="${result}"></div>
     
+    <div id="player"></div>
+    
+    <!--
     <section>
 	    <iframe id="player" type="text/html" width="640" height="360"
 			th:src="|https://www.youtube.com/embed/${videoCode}|"
 			frameborder="0">
 		</iframe>
     </section>
-    
+     -->
     <textarea rows="auto" cols="auto"></textarea>
     
 	
 	<h1>Input Value: <span th:text="${url}"></span></h1>
 	<h1>VideoCode: <span th:text="${videoCode}"></span></h1>
-	<input id="urlid" name="urlid" type="hidden" value="${url}">
+	
+	<input id="videoCode" name="videoCode" th:value="${videoCode}" type="hidden">
+	<input id="urlid" name="urlid" th:value="${url}" type="hidden">
 	
 	<button onclick="startOCR()">Start OCR</button>
     <button onclick="stopOCR()">Stop OCR</button>

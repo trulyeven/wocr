@@ -1,8 +1,6 @@
 package com.trulyeven.wocr.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -13,13 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
-
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.VideoListResponse;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
@@ -140,28 +131,8 @@ public class TransServiceImpl implements TransService {
         }
 	}
 
-	public void youtubeApi() {
-
-		try {
-			// YouTube API 초기화
-            HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            YouTube youtube = new YouTube.Builder(httpTransport, jsonFactory, null)
-                    .setApplicationName("YOUR_APPLICATION_NAME")
-                    .build();
-					
-					// YouTube API 요청 예시
-					YouTube.Videos.List videoRequest = youtube.videos().list("snippet,contentDetails,statistics");
-            videoRequest.setKey(API_KEY);
-            videoRequest.setId("VIDEO_ID");
-            VideoListResponse response = videoRequest.execute();
-			
-            System.out.println(response);
-        } catch (GeneralSecurityException | IOException e) {
-			e.printStackTrace();
-        }
-	}
-
+	
+	
 // 웹페이지 클릭연동
 //	@Override
 //	public void webClick(int x, int y) {

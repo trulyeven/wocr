@@ -77,14 +77,7 @@ public class TransController {
 	}
 	
 	
-	 @PostMapping("/updatePlayerState")
-	 public ResponseEntity<String> updatePlayerState(@RequestParam("playerState") int playerState) {
-		 // 유튜브 재생 상태 업데이트 처리
-		 // 처리 로직 구현
 
-		 return ResponseEntity.ok("Player state updated successfully");
-	 }
-	
 	
 // 웹페이지 클릭연동
 //	@PostMapping("/webClick")
