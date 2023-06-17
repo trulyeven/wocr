@@ -26,7 +26,6 @@ public class TransController {
 
 	
 	private String transCode;
-
 	
 	@GetMapping("/trans")
 	public String trans(Model model) {
@@ -37,7 +36,7 @@ public class TransController {
 	
 	
 	@PostMapping("/trans")
-	public String transPost(String url, Model model) {
+	public String transPost(String url, Model model, VideoInfo videoinfo) {
 		// 비디오 코드를 URL에서 추출하기 위한 정규식 패턴
         Pattern pattern = Pattern.compile("(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*");
         Matcher matcher = pattern.matcher(url);
@@ -48,6 +47,7 @@ public class TransController {
             videoCode = matcher.group();
         }
         transCode = videoCode;
+        videoinfo.setVideoId(transCode);
         
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
@@ -75,9 +75,11 @@ public class TransController {
 	
 	
 	@PostMapping("/yotubeTime")
-	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, VideoInfo videoinfo) {
-		videoinfo.setCurrentTime(currentTime);
-		System.out.println(videoinfo.getCurrentTime());
+	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime) {
+		
+		
+		service.setYoutubeTime(currentTime);
+		
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	

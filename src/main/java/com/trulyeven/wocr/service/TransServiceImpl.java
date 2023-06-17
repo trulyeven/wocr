@@ -23,11 +23,17 @@ import net.sourceforge.tess4j.TesseractException;
 @Service
 public class TransServiceImpl implements TransService {
 	
-	VideoInfo videoinfo;
+	
 	private WebDriver driver; // 인스턴스 변수로 선언
+	private VideoInfo videoinfo;
+	
+	public TransServiceImpl() {
+		this.driver = new EdgeDriver(); // driver 객체 생성
+        this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
+    }
 	
 	
-	
+	@Override
     public void setDriver(String videocode) {
     	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
         EdgeOptions options = new EdgeOptions();
@@ -36,28 +42,36 @@ public class TransServiceImpl implements TransService {
 //        options.addArguments("debuggerAddress=localhost:9999");
 //        options.addArguments("no-sandbox");
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
-        double playtime = videoinfo.getCurrentTime();
         
-        driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
+        driver.get("https://www.youtube.com/embed/" + videocode);
         
-//        // input 태그 선택
-//        WebElement inputElement = driver.findElement(By.id("url"));
-//        // 텍스트 입력
-//        inputElement.sendKeys(url);
-//        inputElement.submit();
-        
+        videoinfo.setVideoId(videocode);
+
      // JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         boolean isSelenium = (boolean) jsExecutor.executeScript("return window.Selenium !== undefined;");
         
         // 결과 출력
         if (isSelenium) {
-            System.out.println("Edge 페이지는 Selenium으로 작동 중입니다.");
+            log.debug("Edge 페이지는 Selenium으로 작동 중입니다.");
         } else {
-            System.out.println("Edge 페이지는 Selenium으로 작동 중이 아닙니다.");
+            log.debug("Edge 페이지는 Selenium으로 작동 중이 아닙니다.");
         }
     }
     
+	@Override
+	public void setYoutubeTime(double currentTime) {
+		String videocode = videoinfo.getVideoId();
+		double playtime = currentTime;
+		videoinfo.setCurrentTime(currentTime);
+		
+		System.out.println(videocode + "?start=" + playtime);
+		
+		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
+	}
+	
+	
+	
 	/**
 	 * 
 	 */

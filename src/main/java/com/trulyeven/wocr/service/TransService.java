@@ -12,9 +12,12 @@ public interface TransService {
 	
 	void setDriver(String videoCode);
 	
+	void setYoutubeTime(double currentTime);
+	
 	void quitDriver();
 
 	void setYoutube(VideoInfo videoinfo);
+
 
 //	void webClick(int x, int y);  // 웹페이지 클릭연동
 
