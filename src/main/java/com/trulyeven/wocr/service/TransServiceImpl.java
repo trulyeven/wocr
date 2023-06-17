@@ -23,10 +23,12 @@ import net.sourceforge.tess4j.TesseractException;
 @Service
 public class TransServiceImpl implements TransService {
 	
+	VideoInfo videoinfo;
 	private WebDriver driver; // 인스턴스 변수로 선언
-
 	
-    public void setDriver(String url) {
+	
+	
+    public void setDriver(String videocode) {
     	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
         EdgeOptions options = new EdgeOptions();
         options.addArguments("start-maximized");
@@ -34,14 +36,15 @@ public class TransServiceImpl implements TransService {
 //        options.addArguments("debuggerAddress=localhost:9999");
 //        options.addArguments("no-sandbox");
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
+        double playtime = videoinfo.getCurrentTime();
         
-        driver.get("http://localhost:9999/wocr/");
+        driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
         
-        // input 태그 선택
-        WebElement inputElement = driver.findElement(By.id("url"));
-        // 텍스트 입력
-        inputElement.sendKeys(url);
-        inputElement.submit();
+//        // input 태그 선택
+//        WebElement inputElement = driver.findElement(By.id("url"));
+//        // 텍스트 입력
+//        inputElement.sendKeys(url);
+//        inputElement.submit();
         
      // JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;

@@ -25,8 +25,8 @@ public class TransController {
 	String youtubeApiKey;
 
 	
-	private String transUrl;
-	
+	private String transCode;
+
 	
 	@GetMapping("/trans")
 	public String trans(Model model) {
@@ -43,13 +43,11 @@ public class TransController {
         Matcher matcher = pattern.matcher(url);
         
         String videoCode = "";
-        @SuppressWarnings("unused")
-		String result = null;
         
         if (matcher.find()) {
             videoCode = matcher.group();
         }
-        transUrl = url;
+        transCode = videoCode;
         
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
@@ -60,7 +58,7 @@ public class TransController {
 
 	@GetMapping("/start-OCR")
 	public ResponseEntity<String> startOCR() {
-		service.setDriver(transUrl);
+		service.setDriver(transCode);
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
@@ -79,6 +77,7 @@ public class TransController {
 	@PostMapping("/yotubeTime")
 	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, VideoInfo videoinfo) {
 		videoinfo.setCurrentTime(currentTime);
+		System.out.println(videoinfo.getCurrentTime());
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	

@@ -10,7 +10,7 @@ public interface TransService {
 	
 	void delImage();
 	
-	void setDriver(String url);
+	void setDriver(String videoCode);
 	
 	void quitDriver();
 
