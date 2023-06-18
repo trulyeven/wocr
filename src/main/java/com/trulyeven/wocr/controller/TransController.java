@@ -75,17 +75,15 @@ public class TransController {
 	
 	
 	@PostMapping("/yotubeTime")
-	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime) {
-		
-		
+	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, 
+												@RequestParam("isPlaying") boolean isPlaying) {
 		service.setYoutubeTime(currentTime);
-		
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	
 	@PostMapping("/yotubePlaying")
-	public ResponseEntity<String> youtubePlaying(@RequestParam("isplaying") boolean isplaying, VideoInfo videoinfo) {
-		videoinfo.setIsplaying(isplaying);
+	public ResponseEntity<String> youtubePlaying(@RequestParam("isplaying") boolean isplaying) {
+		service.setIsPlaying(isplaying);
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	

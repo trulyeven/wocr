@@ -5,6 +5,7 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -68,6 +69,18 @@ public class TransServiceImpl implements TransService {
 		System.out.println(videocode + "?start=" + playtime);
 		
 		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
+	}
+
+	@Override
+	public void setIsPlaying(boolean isPlaying) {
+		boolean playtime = isPlaying;
+		boolean preisplaying = videoinfo.isIsplaying();
+		if (preisplaying != playtime) {
+			WebElement element = driver.findElement(By.id("player"));
+	        // 요소 클릭
+	        element.click();
+		}
+		videoinfo.setIsplaying(isPlaying);
 	}
 	
 	
