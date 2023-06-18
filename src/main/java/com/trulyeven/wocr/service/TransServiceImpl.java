@@ -66,9 +66,9 @@ public class TransServiceImpl implements TransService {
 		double playtime = currentTime;
 		videoinfo.setCurrentTime(currentTime);
 		
-		System.out.println(videocode + "?start=" + playtime);
-		
 		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
+		
+		
 	}
 
 	@Override
