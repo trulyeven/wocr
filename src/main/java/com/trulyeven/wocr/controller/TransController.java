@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +26,7 @@ public class TransController {
 	String youtubeApiKey;
 
 	
-	private String transCode;
-	
-	@GetMapping("/trans")
-	public String trans(Model model) {
-		String result = service.tessOCR();  // OCR 실행
-		model.addAttribute("result", result);
-		return "trans";
-	}
+	private String transCode;  // youtube 고유코드 저장할 변수
 	
 	
 	@PostMapping("/trans")
@@ -46,19 +40,20 @@ public class TransController {
         if (matcher.find()) {
             videoCode = matcher.group();
         }
+    
         transCode = videoCode;
         videoinfo.setVideoId(transCode);
         
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
 		
+		service.setDriver(transCode);
 		return "trans";
 	}
 	
-
+	@Scheduled(fixedDelay = 3000)  // 3초마다 실행
 	@GetMapping("/start-OCR")
 	public ResponseEntity<String> startOCR() {
-		service.setDriver(transCode);
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
@@ -87,41 +82,4 @@ public class TransController {
 	}
 	
 	
-//	// 동영상 정보를 가져오는 컨트롤러 메소드
-//	@GetMapping("/getVideo")
-//	@ResponseBody
-//	public VideoInfo getVideoInfo() {
-//	    // YouTube 동영상 정보를 가져오는 로직
-//	    // VideoInfo 객체에 동영상 정보를 설정하여 반환
-//	    VideoInfo videoInfo = new VideoInfo();
-//	    videoInfo.setVideoId("동영상 아이디");
-//	    videoInfo.setVideoUrl("동영상 URL");
-//	    // 동영상 정보에는 재생 시간 등의 필요한 정보를 포함할 수 있습니다.
-//	    
-//	    return videoInfo;
-//	}
-//
-//	// 클라이언트로부터 현재 재생 시간을 받는 컨트롤러 메소드
-//	@PostMapping("/updateCurrentTime")
-//	@ResponseBody
-//	public void updateCurrentTime(@RequestParam("currentTime") double currentTime) {
-//	    // 클라이언트로부터 전달받은 현재 재생 시간을 처리하는 로직
-//	    // 해당 동영상의 현재 재생 시간을 업데이트하거나 필요한 작업을 수행
-//		System.out.println(currentTime);
-//	}
-	
-//	
-// 웹페이지 클릭연동
-//	@PostMapping("/webClick")
-//	public ResponseEntity<String> handleWebClick(@RequestParam int x, @RequestParam int y) {
-//	    service.webClick(x, y);
-//	    return ResponseEntity.ok("Click event received and processed by Spring");
-//	}
-	
-	
 }
-	
-//	@Scheduled(fixedDelay = 5000)  // 5초마다 실행
-//	public void repeatOCR(String url, Model model) {
-//		
-//	}
