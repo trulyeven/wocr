@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +50,7 @@ public class TransController {
 		return "trans";
 	}
 	
-	@Scheduled(fixedDelay = 3000)  // 3초마다 실행
+//	@Scheduled(fixedDelay = 3000)  // 3초마다 실행
 	@GetMapping("/start-OCR")
 	public ResponseEntity<String> startOCR() {
 	    service.screenShot();  // 스크린샷
