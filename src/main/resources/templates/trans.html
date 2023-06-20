@@ -33,7 +33,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <h1>Web OCR</h1>
         
         <div id="player"></div>
-    
+
         <h1>Input Value: <span th:text="${url}"></span></h1>
         <h1>VideoCode: <span th:text="${videoCode}"></span></h1>
     
@@ -42,18 +42,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         
         <button onclick="startOCR()" class="btn btn-outline-light me-2">Start OCR</button>
         <button onclick="stopOCR()" class="btn btn-danger">Stop OCR</button>
-
+        
+        <br>
         <h2>OCR 결과</h2>
         <p th:text="${result}"></p>
         <div id="result" th:text="${result}"></div>
 
     </main>
-
-        <footer class="mt-auto text-white-50">
-            <p>by 
-                <a th:href="@{https://github.com/trulyeven}" class="text-white">Trulyeven</a>
-            </p>
-        </footer>
     </div>
 
 
