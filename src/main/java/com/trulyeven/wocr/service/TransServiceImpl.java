@@ -42,8 +42,11 @@ public class TransServiceImpl implements TransService {
 //        options.addArguments("debuggerAddress=localhost:9999");
 //        options.addArguments("no-sandbox");
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
-        
-        driver.get("https://www.youtube.com/embed/" + videocode);
+        try {
+			driver.get("https://www.youtube.com/embed/" + videocode);
+		} finally {
+			driver.quit();
+		}
         
         videoinfo.setVideoId(videocode);
 
