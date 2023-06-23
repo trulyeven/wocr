@@ -181,6 +181,11 @@ public class TransServiceImpl implements TransService {
 	    jsExecutor.executeScript(script);
 	}
 	
+
+	@Override
+	public void googletrans() {
+		
+	}
 	
 // 웹페이지 클릭연동
 //	@Override
