@@ -12,6 +12,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
 
+import com.google.api.services.translate.Translate;
+import com.google.cloud.translate.v3.Translation;
 import com.trulyeven.wocr.domain.VideoInfo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class TransServiceImpl implements TransService {
 	
 	private WebDriver driver; // 인스턴스 변수로 선언
 	private VideoInfo videoinfo;
+	
 	
 	public TransServiceImpl() {
 		this.driver = new EdgeDriver(); // driver 객체 생성
@@ -183,8 +186,10 @@ public class TransServiceImpl implements TransService {
 	
 
 	@Override
-	public void googletrans() {
+	public String googletrans(String result) {
 		
+        Translation translation = Translate.translate(result, Translate.TranslateOption.targetLanguage("ko"));
+        return translation.getTranslatedText();
 	}
 	
 // 웹페이지 클릭연동

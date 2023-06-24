@@ -20,7 +20,7 @@ public interface TransService {
 
 	void setYoutube(VideoInfo videoinfo);
 
-	void googletrans();
+	String googletrans(String result);
 //	void webClick(int x, int y);  // 웹페이지 클릭연동
 
 
