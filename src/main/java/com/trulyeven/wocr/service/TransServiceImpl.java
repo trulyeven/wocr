@@ -35,7 +35,9 @@ public class TransServiceImpl implements TransService {
         this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
     }
 	
-	
+	/**
+	 * 
+	 */
 	@Override
     public void setDriver(String videocode) {
     	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
@@ -65,6 +67,9 @@ public class TransServiceImpl implements TransService {
         }
     }
     
+	/*
+	 * 
+	 */
 	@Override
 	public void setYoutubeTime(double currentTime) {
 		String videocode = videoinfo.getVideoId();
@@ -184,19 +189,12 @@ public class TransServiceImpl implements TransService {
 	    jsExecutor.executeScript(script);
 	}
 	
-
+	
 	@Override
 	public String googletrans(String result) {
-		
+		// OCR 결과 번역
         Translation translation = Translate.translate(result, Translate.TranslateOption.targetLanguage("ko"));
         return translation.getTranslatedText();
 	}
 	
-// 웹페이지 클릭연동
-//	@Override
-//	public void webClick(int x, int y) {
-//		Actions actions = new Actions(driver);
-//		actions.moveByOffset(x, y).click().perform();
-//	}
-		
 }
