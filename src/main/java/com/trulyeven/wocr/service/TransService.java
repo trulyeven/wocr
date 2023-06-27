@@ -20,7 +20,7 @@ public interface TransService {
 
 	void setYoutube(VideoInfo videoinfo);
 
-	String googletrans(String result);
+	String translateText(String text);
 	
 	
 }

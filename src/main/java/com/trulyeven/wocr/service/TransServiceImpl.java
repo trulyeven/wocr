@@ -12,9 +12,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
 
-import com.google.api.services.translate.Translate;
-import com.google.cloud.translate.v3.Translation;
 import com.trulyeven.wocr.domain.VideoInfo;
+
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
@@ -28,6 +30,7 @@ public class TransServiceImpl implements TransService {
 	
 	private WebDriver driver; // 인스턴스 변수로 선언
 	private VideoInfo videoinfo;
+	private Translate translate;
 	
 	
 	public TransServiceImpl() {
@@ -173,6 +176,7 @@ public class TransServiceImpl implements TransService {
         }
 	}
 
+	
 	@Override
 	public void setYoutube(VideoInfo videoinfo) {
 	    double youtubesec = videoinfo.getCurrentTime();
@@ -191,10 +195,11 @@ public class TransServiceImpl implements TransService {
 	
 	
 	@Override
-	public String googletrans(String result) {
-		// OCR 결과 번역
-        Translation translation = Translate.translate(result, Translate.TranslateOption.targetLanguage("ko"));
+	public String translateText(String text) {
+		// Google Translate 초기화
+        translate = TranslateOptions.getDefaultInstance().getService();
+        Translation translation = translate.translate(text, Translate.TranslateOption.targetLanguage("ko"));
         return translation.getTranslatedText();
-	}
+    }
 	
 }
