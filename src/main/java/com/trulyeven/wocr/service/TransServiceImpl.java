@@ -12,11 +12,10 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
 
-import com.trulyeven.wocr.domain.VideoInfo;
-
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
+import com.trulyeven.wocr.domain.VideoInfo;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
