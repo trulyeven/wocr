@@ -51,7 +51,7 @@ public class TransServiceImpl implements TransService {
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
         try {
 			driver.get("https://www.youtube.com/embed/" + videocode);
-		} finally {
+		} catch (Exception e) {
 			driver.quit();
 		}
         
