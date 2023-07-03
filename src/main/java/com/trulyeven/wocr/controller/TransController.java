@@ -50,7 +50,7 @@ public class TransController {
 		return "trans";
 	}
 	
-//	@Scheduled(fixedDelay = 3000)  // 3초마다 실행
+	// @Scheduled(fixedDelay = 3000)  // 3초마다 실행
 	@GetMapping("/start-OCR")
 	public ResponseEntity<String> startOCR(Model model) {
 	    service.screenShot();  // 스크린샷

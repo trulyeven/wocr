@@ -1,7 +1,17 @@
-/**
- * 
- */
+
+var ocrInterval; // OCR 반복을 저장할 변수
+
+function repeatOCR() {
+  if (ocrInterval) {
+      ocrInterval = setInterval(function() {
+        performOCR();  // 2초마다 실행
+      }, 2000);
+  }
+}
+
 function startOCR() {
+  clearInterval(ocrInterval); // OCR 실행 멈춤
+
 	$.ajax({
 		url: '/wocr/start-OCR',
 		type: 'GET',
@@ -117,6 +127,7 @@ function sendCurrentTimeToServer(currentTime) {
   });
 }
 
+// 유투브 재생 유무 확인
 function sendIsPlaying(isplaying) {
   $.ajax({
     url: '/wocr/yotubePlaying',
@@ -132,32 +143,4 @@ function sendIsPlaying(isplaying) {
     }
   });
 }
-
-
-/* 웹페이지와 셀레니움 페이지 클릭 연동
-function clickEventHandler(event) {
-  var x = event.clientX;
-  var y = event.clientY;
-
-  console.log(x);
-  // AJAX를 사용하여 좌표 값을 Spring 컨트롤러로 전송
-  $.ajax({
-    url: '/wocr/webClick',
-    type: 'POST',
-    data: {
-      x: x,
-      y: y
-    },
-    success: function(response) {
-      console.log('Click event sent to Spring');
-    },
-    error: function(xhr, status, error) {
-      console.log('Failed to send click event to Spring');
-    }
-  });
-}
-
-// 초기에 한 번 이벤트 리스너를 등록합니다
-document.addEventListener('click', clickEventHandler);
-*/
 
