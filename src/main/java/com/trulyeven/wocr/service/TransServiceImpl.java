@@ -26,14 +26,10 @@ import net.sourceforge.tess4j.TesseractException;
 @Service
 public class TransServiceImpl implements TransService {
 	
-	
 	private WebDriver driver = null; // 인스턴스 변수로 선언
 	private VideoInfo videoinfo;
 	private Translate translate;
 	private EdgeOptions options;
-	
-	public TransServiceImpl() {
-    }
 	
 	/**
 	 * 
@@ -56,9 +52,8 @@ public class TransServiceImpl implements TransService {
 			driver.quit();
 		}
         
-//        videoinfo.setVideoId(videocode);
 
-     // JavaScript 실행
+    	// JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         boolean isSelenium = (boolean) jsExecutor.executeScript("return window.Selenium !== undefined;");
         
@@ -80,7 +75,6 @@ public class TransServiceImpl implements TransService {
 		videoinfo.setCurrentTime(currentTime);
 		
 		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
-		
 		
 	}
 
@@ -115,7 +109,6 @@ public class TransServiceImpl implements TransService {
 		} catch (Exception e) {
 			log.debug("selenium screenshot error");
 		}
-		
 	}
 	
 	@Override
@@ -202,4 +195,20 @@ public class TransServiceImpl implements TransService {
         return translation.getTranslatedText();
     }
 	
+
+	@Override
+	public Boolean drivercheck() {		
+		// 현재 활성화된 브라우저 창의 핸들(식별자) 가져오기
+		String currentWindowHandle = driver.getWindowHandle();
+		
+		// 현재 활성화된 브라우저 창의 핸들이 존재하는지 확인
+		if (currentWindowHandle != null) {
+			// System.out.println("현재 활성화된 브라우저 창이 있습니다.");
+			return true;
+		} else {
+			// System.out.println("현재 활성화된 브라우저 창이 없습니다.");
+			return false;
+		}
+	}
+
 }

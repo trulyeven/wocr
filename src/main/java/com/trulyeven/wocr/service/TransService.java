@@ -22,5 +22,5 @@ public interface TransService {
 
 	String translateText(String text);
 	
-	
+	Boolean drivercheck();
 }

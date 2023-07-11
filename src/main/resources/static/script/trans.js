@@ -1,14 +1,4 @@
 
-var ocrInterval; // OCR 반복을 저장할 변수
-
-function repeatOCR() {
-  if (ocrInterval) {
-      ocrInterval = setInterval(function() {
-        startOCR();  // 2초마다 실행
-      }, 2000);
-  }
-}
-
 function startOCR() {
   
   $.ajax({
@@ -25,7 +15,19 @@ function startOCR() {
 			console.log('요청을 보낼 수 없습니다. 오류: ' + error);
     }
 	});
+  repeatOCR();
 }
+
+var ocrInterval; // OCR 반복을 저장할 변수
+
+function repeatOCR() {
+  if (ocrInterval) {
+      ocrInterval = setInterval(function() {
+        startOCR();  // 2초마다 실행
+      }, 2000);
+  }
+}
+
 
 function stopOCR() {
   clearInterval(ocrInterval); // OCR 실행 멈춤
