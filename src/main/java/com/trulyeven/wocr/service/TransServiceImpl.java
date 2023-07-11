@@ -27,14 +27,12 @@ import net.sourceforge.tess4j.TesseractException;
 public class TransServiceImpl implements TransService {
 	
 	
-	private WebDriver driver; // 인스턴스 변수로 선언
+	private WebDriver driver = null; // 인스턴스 변수로 선언
 	private VideoInfo videoinfo;
 	private Translate translate;
-	
+	private EdgeOptions options;
 	
 	public TransServiceImpl() {
-		this.driver = new EdgeDriver(); // driver 객체 생성
-        this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
     }
 	
 	/**
@@ -42,20 +40,23 @@ public class TransServiceImpl implements TransService {
 	 */
 	@Override
     public void setDriver(String videocode) {
-    	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("start-maximized");
-       	options.addArguments("headless");
-//        options.addArguments("debuggerAddress=localhost:9999");
-//        options.addArguments("no-sandbox");
-        driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
+//		EdgeOptions options = new EdgeOptions();
+		this.options = new EdgeOptions();
+		options.addArguments("start-maximized");
+		options.addArguments("headless");
+		
+		System.setProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
+		
+		this.driver = new EdgeDriver(options); // driver 객체 생성
+		this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
+
         try {
 			driver.get("https://www.youtube.com/embed/" + videocode);
 		} catch (Exception e) {
 			driver.quit();
 		}
         
-        videoinfo.setVideoId(videocode);
+//        videoinfo.setVideoId(videocode);
 
      // JavaScript 실행
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
@@ -137,7 +138,7 @@ public class TransServiceImpl implements TransService {
 
         try {
             String result = instance.doOCR(imageFile);
-            System.out.println(result);
+//            System.out.println(result);
             return result;
         } catch (TesseractException e) {
             log.debug(e.getMessage());

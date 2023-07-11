@@ -65,8 +65,8 @@ function onYouTubeIframeAPIReady() {
   var videoID = document.getElementsByName('videoCode')[0].value;
 
   player = new YT.Player('player', {
-    height: '640',
-    width: '1280',
+    height: '320',
+    width: '640',
     videoId: videoID,
     events: {
       'onReady': onPlayerReady,

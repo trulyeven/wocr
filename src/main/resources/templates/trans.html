@@ -27,29 +27,31 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
         </header>
 
-    <main class="px-3">
-        <h1>Web OCR</h1>
-        
-        <div id="player"></div>
+	    <main class="px-3">
+	        <h1>Web OCR</h1>
+	        
+	        <div id="player"></div>
+	    
+<!--/*
+ 	        <h1>Input Value: <span th:text="${url}"></span></h1>
+	        <h1>VideoCode: <span th:text="${videoCode}"></span></h1>
+*/-->
+			<hr>
+	        <input id="videoCode" name="videoCode" th:value="${videoCode}" type="hidden">
+	        <input id="urlid" name="urlid" th:value="${url}" type="hidden">
 
-        <h1>Input Value: <span th:text="${url}"></span></h1>
-        <h1>VideoCode: <span th:text="${videoCode}"></span></h1>
-    
-        <input id="videoCode" name="videoCode" th:value="${videoCode}" type="hidden">
-        <input id="urlid" name="urlid" th:value="${url}" type="hidden">
-        
-        <button onclick="startOCR()" class="btn btn-outline-light me-2">Start OCR</button>
-        <button onclick="stopOCR()" class="btn btn-danger">Stop OCR</button>
-        
-        <br>
-        <h2>OCR 결과</h2>
-        <p th:text="${result}"></p>
-        <div id="result" th:text="${result}"></div>
-
-        <h2>번역 결과</h2>
-        <div id="transresult" th:text="${transresult}"></div>
-
-    </main>
+	        <button onclick="startOCR()" class="btn btn-outline-light me-2">Start OCR</button>
+	        <button onclick="stopOCR()" class="btn btn-danger">Stop OCR</button>
+	        
+	        <hr>
+	        <h2>OCR 결과</h2>
+	        <p th:text="${result}"></p>
+	        <div id="result" th:text="${result}"></div>
+<!-- 
+	        <h2>번역 결과</h2>
+	        <div id="transresult" th:text="${transresult}"></div>
+-->    
+		</main>
     </div>
 
 

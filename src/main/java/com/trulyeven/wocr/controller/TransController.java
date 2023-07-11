@@ -52,12 +52,12 @@ public class TransController {
 	
 	// @Scheduled(fixedDelay = 3000)  // 3초마다 실행
 	@GetMapping("/start-OCR")
-	public ResponseEntity<String> startOCR(Model model) {
+	public ResponseEntity<String> startOCR() {
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
-	    String transresult = service.translateText(result);
-		model.addAttribute("transresult", transresult);
+//	    String transresult = service.translateText(result);
+//		model.addAttribute("transresult", transresult);
 	    return ResponseEntity.ok(result);
 	}
 	
