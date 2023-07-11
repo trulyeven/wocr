@@ -69,7 +69,7 @@ public class TransServiceImpl implements TransService {
 	 * 
 	 */
 	@Override
-	public void setYoutubeTime(double currentTime) {
+	public void setYoutubeTime(double currentTime, VideoInfo videoInfo) {
 		String videocode = videoinfo.getVideoId();
 		double playtime = currentTime;
 		videoinfo.setCurrentTime(currentTime);

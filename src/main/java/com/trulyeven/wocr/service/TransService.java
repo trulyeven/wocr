@@ -12,7 +12,7 @@ public interface TransService {
 	
 	void setDriver(String videoCode);
 	
-	void setYoutubeTime(double currentTime);
+	void setYoutubeTime(double currentTime, VideoInfo videoInfo);
 
 	void setIsPlaying(boolean isPlaying);
 	
