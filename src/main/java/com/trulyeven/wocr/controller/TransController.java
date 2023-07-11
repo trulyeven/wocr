@@ -52,10 +52,11 @@ public class TransController {
 	
 	// @Scheduled(fixedDelay = 3000)  // 3초마다 실행
 	@GetMapping("/start-OCR")
-	public ResponseEntity<String> startOCR() {
+	public ResponseEntity<String> startOCR(VideoInfo videoinfo) {
 		boolean drivercheck = service.drivercheck();
-		if (!drivercheck) {
-			service.setDriver(transCode);
+		
+		if (drivercheck == false) {
+			service.setDriver(videoinfo.getVideoId());
 		}
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행

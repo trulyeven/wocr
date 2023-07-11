@@ -39,7 +39,7 @@ public class TransServiceImpl implements TransService {
 //		EdgeOptions options = new EdgeOptions();
 		this.options = new EdgeOptions();
 		options.addArguments("start-maximized");
-		options.addArguments("headless");
+		// options.addArguments("headless");
 		
 		System.setProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
 		
