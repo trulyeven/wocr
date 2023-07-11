@@ -27,7 +27,7 @@ import net.sourceforge.tess4j.TesseractException;
 public class TransServiceImpl implements TransService {
 	
 	private WebDriver driver = null; // 인스턴스 변수로 선언
-	private VideoInfo videoinfo;
+	// private VideoInfo videoinfo;
 	private Translate translate;
 	private EdgeOptions options;
 	
@@ -44,7 +44,7 @@ public class TransServiceImpl implements TransService {
 		System.setProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
 		
 		this.driver = new EdgeDriver(options); // driver 객체 생성
-		this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
+		// this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
 
         try {
 			driver.get("https://www.youtube.com/embed/" + videocode);
@@ -69,17 +69,17 @@ public class TransServiceImpl implements TransService {
 	 * 
 	 */
 	@Override
-	public void setYoutubeTime(double currentTime, VideoInfo videoInfo) {
-		String videocode = videoinfo.getVideoId();
+	public void setYoutubeTime(double currentTime, String youtubeid) {
+		String videocode = youtubeid;
 		double playtime = currentTime;
-		videoinfo.setCurrentTime(currentTime);
+		// videoinfo.setCurrentTime(currentTime);
 		
 		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
 		
 	}
 
 	@Override
-	public void setIsPlaying(boolean isPlaying) {
+	public void setIsPlaying(boolean isPlaying, VideoInfo videoinfo) {
 		boolean playtime = isPlaying;
 		boolean preisplaying = videoinfo.isIsplaying();
 		if (preisplaying != playtime) {

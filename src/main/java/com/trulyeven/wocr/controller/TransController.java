@@ -25,12 +25,10 @@ public class TransController {
 	String youtubeApiKey;
 
 	
-	private String transCode;  // youtube 고유코드 저장할 변수
-	
-	
 	@PostMapping("/trans")
 	public String transPost(String url, Model model, VideoInfo videoinfo) {
 		// 비디오 코드를 URL에서 추출하기 위한 정규식 패턴
+		System.out.println(url);
         Pattern pattern = Pattern.compile("(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*");
         Matcher matcher = pattern.matcher(url);
         
@@ -39,14 +37,13 @@ public class TransController {
         if (matcher.find()) {
             videoCode = matcher.group();
         }
-    
-        transCode = videoCode;
-        videoinfo.setVideoId(transCode);
-        
+		
+        videoinfo.setVideoId(videoCode);
+        System.out.println(videoinfo.getVideoId());
 		model.addAttribute("url", url);
 		model.addAttribute("videoCode", videoCode);
 		
-		service.setDriver(transCode);
+		service.setDriver(videoCode);
 		return "trans";
 	}
 	
@@ -58,6 +55,7 @@ public class TransController {
 		if (drivercheck == false) {
 			service.setDriver(videoinfo.getVideoId());
 		}
+		
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
@@ -75,14 +73,15 @@ public class TransController {
 	
 	
 	@PostMapping("/yotubeTime")
-	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, VideoInfo videoInfo) {
-		service.setYoutubeTime(currentTime, videoInfo);
+	public ResponseEntity<String> youtubeTime(@RequestParam("currentTime") double currentTime, VideoInfo videoinfo) {
+		String youtubeid = videoinfo.getVideoId();
+		service.setYoutubeTime(currentTime, youtubeid);
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	
 	@PostMapping("/yotubePlaying")
-	public ResponseEntity<String> youtubePlaying(@RequestParam("isplaying") boolean isplaying) {
-		service.setIsPlaying(isplaying);
+	public ResponseEntity<String> youtubePlaying(@RequestParam("isplaying") boolean isplaying, VideoInfo videoinfo) {
+		service.setIsPlaying(isplaying, videoinfo);
 		return ResponseEntity.ok("Current time received and processed");
 	}
 	
