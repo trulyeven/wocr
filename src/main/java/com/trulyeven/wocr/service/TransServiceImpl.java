@@ -45,7 +45,7 @@ public class TransServiceImpl implements TransService {
     	System.getProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
         EdgeOptions options = new EdgeOptions();
         options.addArguments("start-maximized");
-//        options.addArguments("headless");
+       	options.addArguments("headless");
 //        options.addArguments("debuggerAddress=localhost:9999");
 //        options.addArguments("no-sandbox");
         driver = new EdgeDriver(options); // 인스턴스 변수에 WebDriver 객체 할당
