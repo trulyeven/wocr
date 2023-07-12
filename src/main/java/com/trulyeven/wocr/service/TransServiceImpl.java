@@ -69,10 +69,9 @@ public class TransServiceImpl implements TransService {
 	 * 
 	 */
 	@Override
-	public void setYoutubeTime(double currentTime, String youtubeid) {
-		String videocode = youtubeid;
+	public void setYoutubeTime(double currentTime, VideoInfo videoinfo) {
+		String videocode = videoinfo.getVideoId();
 		double playtime = currentTime;
-		// videoinfo.setCurrentTime(currentTime);
 		
 		driver.get("https://www.youtube.com/embed/" + videocode + "?start=" + playtime);
 		
@@ -82,14 +81,13 @@ public class TransServiceImpl implements TransService {
 	public void setIsPlaying(boolean isPlaying, VideoInfo videoinfo) {
 		boolean playtime = isPlaying;
 		boolean preisplaying = videoinfo.isIsplaying();
-		if (preisplaying != playtime) {
+		if (preisplaying == playtime) {
 			WebElement element = driver.findElement(By.id("player"));
 	        // 요소 클릭
 	        element.click();
 		}
 		videoinfo.setIsplaying(isPlaying);
 	}
-	
 	
 	
 	/**
@@ -135,8 +133,8 @@ public class TransServiceImpl implements TransService {
             return result;
         } catch (TesseractException e) {
             log.debug(e.getMessage());
+			return "감지된 문자가 없습니다.";
         }
-		return null;
 	}
 	
 	/**

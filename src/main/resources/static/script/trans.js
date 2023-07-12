@@ -1,44 +1,43 @@
+ocrInterval = true; // OCR 반복을 저장할 변수
+var previousResult = ''; // result값 저장할 변수
+responsearray = [];
 
 function startOCR() {
-  
-  $.ajax({
-    url: '/wocr/start-OCR',
+	$.ajax({
+		url: '/wocr/start-OCR',
 		type: 'GET',
 		success: function(response) {
-      // 서버에서의 처리가 성공한 경우에 실행할 동작을 작성합니다.
-			console.log('OCR 실행 결과:', response);
-			// response 변수에는 서버에서 반환한 result 값이 포함됩니다.
-			$('#result').text(response); // 결과를 출력할 위치에 값 설정
-		},
+		// 서버에서의 처리가 성공한 경우에 실행할 동작을 작성합니다.
+			// console.log('OCR 실행 결과:', response);
+      		if (response !== responsearray[0]) { // 현재 결과가 이전 결과와 다른 경우에만 처리
+      			responsearray.unshift(response);
+	        	$('#result').prepend(responsearray); // 결과를 출력할 위치에 값을 누적하여 추가
+      		}
+    	},
 		error: function(xhr, status, error) {
-      // 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.
-			console.log('요청을 보낼 수 없습니다. 오류: ' + error);
-    }
+	  	// 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.
+		console.log('요청을 보낼 수 없습니다. 오류: ' + error);
+	    }
 	});
-  repeatOCR();
-}
-
-var ocrInterval; // OCR 반복을 저장할 변수
-
-function repeatOCR() {
-  if (ocrInterval) {
-      ocrInterval = setInterval(function() {
-        startOCR();  // 2초마다 실행
-      }, 2000);
-  }
+	if (ocrInterval == true) {
+		setTimeout(function() {
+			startOCR();
+	  	}, 4000);
+	} else {
+		ocrInterval = true;  
+	}
 }
 
 
 function stopOCR() {
-  clearInterval(ocrInterval); // OCR 실행 멈춤
-
-  $.ajax({
-    url: '/wocr/stop-OCR',
+	ocrInterval = false;
+	$.ajax({
+	    url: '/wocr/stop-OCR',
 		type: 'GET',
 		success: function(response) {
-      // 서버에서의 처리가 성공한 경우에 실행할 동작을 작성합니다.
-      console.log('OCR 종료');
-    },
+	      // 서버에서의 처리가 성공한 경우에 실행할 동작을 작성합니다.
+	    console.log('OCR 종료');
+	    },
 		error: function(xhr, status, error) {
       // 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.
 		console.log('요청을 보낼 수 없습니다. 오류: ' + error);

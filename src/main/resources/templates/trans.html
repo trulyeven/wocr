@@ -45,12 +45,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	        
 	        <hr>
 	        <h2>OCR 결과</h2>
-	        <p th:text="${result}"></p>
-	        <div id="result" th:text="${result}"></div>
-<!-- 
-	        <h2>번역 결과</h2>
-	        <div id="transresult" th:text="${transresult}"></div>
--->    
+	        <div class="form-control" id="result" th:text="${resultarray}"></div>
+	        <th:block>
+	        	<p th:text="${result}"></p>
+	        </th:block>
+
 		</main>
     </div>
 
