@@ -11,14 +11,18 @@ function startOCR() {
 			// console.log('OCR 실행 결과:', response);
       		if (response !== responsearray[0]) { // 현재 결과가 이전 결과와 다른 경우에만 처리
       			responsearray.unshift(response);
-	        	$('#result').prepend(responsearray); // 결과를 출력할 위치에 값을 누적하여 추가
-      		}
-    	},
-		error: function(xhr, status, error) {
-	  	// 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.
-		console.log('요청을 보낼 수 없습니다. 오류: ' + error);
-	    }
-	});
+	        	var html = responsearray.map(function(item) {
+              return '<div>' + item + '</div>'; // 각 response를 div 요소로 감싸줌
+            }).join('');
+            $('#result').html(html); // 결과를 출력할 위치에 값을 누적하여 추가
+          }
+        },
+        error: function(xhr, status, error) {
+          // 서버에서의 처리가 실패한 경우에 실행할 동작을 작성합니다.
+          console.log('요청을 보낼 수 없습니다. 오류: ' + error);
+        }
+      });
+    
 	if (ocrInterval == true) {
 		setTimeout(function() {
 			startOCR();

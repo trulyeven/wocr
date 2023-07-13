@@ -38,8 +38,8 @@ public class TransServiceImpl implements TransService {
     public void setDriver(String videocode) {
 //		EdgeOptions options = new EdgeOptions();
 		this.options = new EdgeOptions();
-		options.addArguments("start-maximized");
-		// options.addArguments("headless");
+		options.addArguments("start-maximized");  // 창 크기 최대화
+		options.addArguments("headless");  // 자동화창 숨기기
 		
 		System.setProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
 		
@@ -48,6 +48,10 @@ public class TransServiceImpl implements TransService {
 
         try {
 			driver.get("https://www.youtube.com/embed/" + videocode);
+			WebElement element = driver.findElement(By.id("player"));
+	        // 요소 클릭
+	        element.click();
+	        element.click();
 		} catch (Exception e) {
 			driver.quit();
 		}
