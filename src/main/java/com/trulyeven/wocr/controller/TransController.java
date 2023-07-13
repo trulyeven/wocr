@@ -57,8 +57,7 @@ public class TransController {
 	    service.screenShot();  // 스크린샷
 	    String result = service.tessOCR();  // OCR 실행
 	    service.delImage();  // 이미지파일 제거
-//	    String transresult = service.translateText(result);
-//		model.addAttribute("transresult", transresult);
+		
 	    return ResponseEntity.ok(result);
 	}
 	

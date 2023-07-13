@@ -83,7 +83,6 @@ function onYouTubeIframeAPIReady() {
 // 플레이어 준비 완료 시 호출되는 함수
 function onPlayerReady(event) {
   console.log(player.getDuration());
-  //event.target.playVideo();
 }
 
 

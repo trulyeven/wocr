@@ -36,7 +36,6 @@ public class TransServiceImpl implements TransService {
 	 */
 	@Override
     public void setDriver(String videocode) {
-//		EdgeOptions options = new EdgeOptions();
 		this.options = new EdgeOptions();
 		options.addArguments("start-maximized");  // 창 크기 최대화
 		options.addArguments("headless");  // 자동화창 숨기기
@@ -44,7 +43,6 @@ public class TransServiceImpl implements TransService {
 		System.setProperty("webdriver.edge.driver", "C:\\worktool\\msedgedriver.exe");  // 웹드라이버 파일 경로
 		
 		this.driver = new EdgeDriver(options); // driver 객체 생성
-		// this.videoinfo = new VideoInfo(); // videoinfo 객체 생성
 
         try {
 			driver.get("https://www.youtube.com/embed/" + videocode);
