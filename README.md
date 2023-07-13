@@ -31,8 +31,8 @@
 
 ![chrome-capture-2023-6-11](https://github.com/trulyeven/trulyeven.github.io/assets/113951017/cb65eb4c-125e-48fa-b284-cd10e3834b2c)
 
-유튜브 주소를 입력하면 OCR을 수행하는 창으로 이동한다
-유효하지 않은 주소를 입력할 경우 경고메세지가 출력된다
+- 유튜브 주소를 입력하면 OCR을 수행하는 창으로 이동한다
+- 유효하지 않은 주소를 입력할 경우 경고메세지가 출력된다
 
 
 *OCR 실행 화면*
